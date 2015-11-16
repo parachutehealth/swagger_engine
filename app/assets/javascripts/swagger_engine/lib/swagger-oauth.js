@@ -100,7 +100,10 @@ function handleLogin() {
     var authSchemes = window.swaggerUi.api.authSchemes;
     var host = window.location;
     var pathname = location.pathname.substring(0, location.pathname.lastIndexOf("/"));
-    var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/o2c.html';
+    // MODIFIED FROM ORIGINAL LIBRARY >>> Probably a better way to do this.
+    // var defaultRedirectUrl = host.protocol + '//' + host.host + pathname + '/o2c.html';
+    var defaultRedirectUrl = host.protocol + '//' + host.host + pathname.replace('swaggers', 'callbacks');
+    // <<<<< END OF MODIFICATION >>>>
     var redirectUrl = window.oAuthRedirectUrl || defaultRedirectUrl;
     var url = null;
 

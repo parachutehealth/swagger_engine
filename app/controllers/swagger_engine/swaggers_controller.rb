@@ -12,7 +12,13 @@ module SwaggerEngine
 
     def show
       respond_to do |format|
-        format.html { 
+        format.html {
+          @swagger_oauth_client_id = SwaggerEngine.configuration.oauth_client_id || "your-client-id"
+          @swagger_oauth_client_secret = SwaggerEngine.configuration.oauth_client_secret || "your-client-secret"
+          @swagger_oauth_realm = SwaggerEngine.configuration.oauth_realm || "your-realms"
+          @swagger_oauth_app_name = SwaggerEngine.configuration.oauth_app_name || "your-app-name"
+          @swagger_oauth_redirect_url = SwaggerEngine.configuration.oauth_redirect_url || ""
+
           @swagger_json_url = swagger_path(params[:id], format: :json)
         }
         format.json { 

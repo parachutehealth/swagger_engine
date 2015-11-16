@@ -29,13 +29,18 @@
         url: url,
         dom_id: "swagger-ui-container",
         supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
+        // there is a bug in swagger-ui that required oauth2RedirectUrl
+        // to be a string for the redirect url to be set.
+        // https://github.com/swagger-api/swagger-ui/blob/v2.1.3/src/main/javascript/SwaggerUi.js#L38
+        oauth2RedirectUrl: 'this-is-a-string',
+        redirectUrl: '<%= @swagger_oauth_redirect_url %>',
         onComplete: function(swaggerApi, swaggerUi){
           if(typeof initOAuth == "function") {
             initOAuth({
-              clientId: "your-client-id",
-              clientSecret: "your-client-secret",
-              realm: "your-realms",
-              appName: "your-app-name",
+              clientId: "<%= @swagger_oauth_client_id %>",
+              clientSecret: "<%= @swagger_oauth_client_secret %>",
+              realm: "<%= @swagger_oauth_realm %>",
+              appName: "<%= @swagger_oauth_app_name %>",
               scopeSeparator: ","
             });
           }
@@ -58,14 +63,26 @@
         showRequestHeaders: false
       });
 
-      function addApiKeyAuthorization(){
-        var key = encodeURIComponent($('#input_apiKey')[0].value);
-        if(key && key.trim() != "") {
-            var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
-            window.swaggerUi.api.clientAuthorizations.add("api_key", apiKeyAuth);
-            log("added key " + key);
-        }
+      function addApiKeyAuthorization() {
       }
+
+//      function addApiKeyAuthorization(){
+//        var key = encodeURIComponent( $('#input_apiKey')[0].value );
+//        if(key && key.trim() != "") {
+//          var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("Authorization", "Bearer " + key, "header");
+//          window.swaggerUi.api.clientAuthorizations.add("Authorization", apiKeyAuth);
+//          log( "Set bearer token: " + key );
+//        }
+//      }
+
+//      function addApiKeyAuthorization(){
+//        var key = encodeURIComponent($('#input_apiKey')[0].value);
+//        if(key && key.trim() != "") {
+//          var apiKeyAuth = new SwaggerClient.ApiKeyAuthorization("api_key", key, "query");
+//          window.swaggerUi.api.clientAuthorizations.add("Authorization", apiKeyAuth);
+//          log("added key " + key);
+//        }
+//      }
 
       $('#input_apiKey').change(addApiKeyAuthorization);
 
