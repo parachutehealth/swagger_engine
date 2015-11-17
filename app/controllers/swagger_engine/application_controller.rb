@@ -3,6 +3,11 @@ module SwaggerEngine
 
     before_filter :authenticate
 
+    force_ssl if: :require_ssl
+    def require_ssl
+      SwaggerEngine.configuration.force_ssl || false
+    end
+
     protected
     def authenticate
       if SwaggerEngine.configuration.admin_username
