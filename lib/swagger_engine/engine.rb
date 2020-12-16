@@ -19,8 +19,6 @@ module SwaggerEngine
     attr_accessor :oauth_app_name
     attr_accessor :oauth_realm
     attr_accessor :oauth_redirect_url
-
-    attr_accessor :force_ssl
   end
   class << self
     attr_writer :configuration
